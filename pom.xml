@@ -18,7 +18,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.opentracing.contrib</groupId>
   <artifactId>opentracing-jdbc</artifactId>
-  <version>0.1.6-SNAPSHOT</version>
+  <version>0.1.6-rc.1</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>OpenTracing Instrumentation for JDBC API</description>
@@ -130,6 +130,13 @@
 
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>strava-nexus</id>
+      <url>http://nexus.eng.strava.com/nexus/content/repositories/releases</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
@@ -206,19 +213,27 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+         <groupId>org.sonatype.plugins</groupId>
+         <artifactId>nexus-staging-maven-plugin</artifactId>
+         <version>1.5.1</version>
+         <executions>
+            <execution>
+               <id>default-deploy</id>
+               <phase>deploy</phase>
+               <goals>
+                  <goal>deploy</goal>
+               </goals>
+            </execution>
+         </executions>
+         <configuration>
+            <serverId>nexus</serverId>
+            <nexusUrl>http://nexus.eng.strava.com/nexus/</nexusUrl>
+            <skipStaging>true</skipStaging>
+         </configuration>
+      </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>bintray</id>
-      <url>https://api.bintray.com/maven/opentracing/maven/opentracing-jdbc/;publish=1</url>
-    </repository>
-    <snapshotRepository>
-      <id>jfrog-snapshots</id>
-      <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <profiles>
     <profile>
